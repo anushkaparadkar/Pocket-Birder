@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:pocket_birder_x/views/auth.dart';
 import 'package:pocket_birder_x/views/features.dart';
 import 'package:pocket_birder_x/views/home.dart';
 
@@ -9,6 +10,10 @@ class BirdRouter {
   static Handler _home =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return HomePage();
+  });
+  static Handler _auth =
+      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return LoginPage();
   });
   static Handler _features =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -21,5 +26,6 @@ class BirdRouter {
   static void setupRouter() {
     router.define('home', handler: _home);
     router.define('features', handler: _features);
+    router.define('auth', handler: _auth);
   }
 }

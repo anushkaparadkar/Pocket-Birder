@@ -22,6 +22,8 @@ dependencies:
   snaplist: ^0.1.8
   image_picker: ^0.6.1+4
   fluro: ^1.5.1
+  font_awesome_flutter: ^8.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,8 +38,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/bird.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
