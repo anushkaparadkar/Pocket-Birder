@@ -6,7 +6,7 @@ class Features extends StatelessWidget {
   final List<String> images;
   final List<String> titles;
 
-  const Features({Key key, this.images, this.titles}) : super(key: key);
+  const Features({this.images, this.titles});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,13 @@ class Features extends StatelessWidget {
       separatorProvider: (index, data) => Size(10.0, 10.0),
       builder: (context, index, data) {
         return CustomCard(
-          bgColor: Colors.white,
-          content: Text('Test'),
-        );
+            bgColor: Colors.white,
+            content: Column(
+              children: <Widget>[
+                Image.asset(images[index]),
+                Text(titles[index])
+              ],
+            ));
       },
       count: 3,
     );
