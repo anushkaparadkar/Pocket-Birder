@@ -4,7 +4,7 @@ class CustomCard extends StatelessWidget {
   final Widget content;
   final Color bgColor;
 
-  CustomCard({Key key, this.content, this.bgColor}) : super(key: key);
+  CustomCard({this.content, this.bgColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class CustomCard extends StatelessWidget {
                   color: Colors.black12,
                   blurRadius: 15,
                   offset: new Offset(0.0, 10.0),
+                  
                 )
               ],
             ),

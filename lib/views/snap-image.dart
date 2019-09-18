@@ -7,7 +7,7 @@ import 'package:pocket_birder_x/components/card.dart';
 class Snap extends StatefulWidget {
   final int value;
 
-  const Snap({Key key, this.value}) : super(key: key);
+  const Snap({this.value});
 
   @override
   _SnapState createState() => _SnapState();
@@ -56,7 +56,7 @@ class _SnapState extends State<Snap> {
                 Center(
                   child: _image == null
                       ? Text(
-                          'No image selected!\nPlease snap your food again!',
+                          'No image selected!\nPlease snap your bird again!',
                           style: TextStyle(
                             color: Theme.of(context).errorColor,
                             fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class _SnapState extends State<Snap> {
                       : Image.file(_image),
                 ),
                 Padding(
-                  child: Text("food_name"),
+                  child: Text("bird"),
                   padding: EdgeInsets.all(10),
                 ),
                 Padding(
