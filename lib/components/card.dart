@@ -14,7 +14,7 @@ class CustomCard extends StatelessWidget {
         children: <Widget>[
           new Container(
             width: double.infinity,
-            height: 500,
+            //height: 500,
             decoration: new BoxDecoration(
               color: bgColor,
               shape: BoxShape.rectangle,

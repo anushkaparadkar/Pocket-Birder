@@ -3,6 +3,7 @@ import 'package:fluro/fluro.dart';
 import 'package:pocket_birder_x/views/auth.dart';
 import 'package:pocket_birder_x/views/features.dart';
 import 'package:pocket_birder_x/views/home.dart';
+import 'package:pocket_birder_x/views/snap-image.dart';
 
 class BirdRouter {
   static Router router = Router();
@@ -14,6 +15,12 @@ class BirdRouter {
   static Handler _auth =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return LoginPage();
+  });
+  static Handler _snap =
+      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return Snap(
+      value: 0,
+    );
   });
   static Handler _features =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -31,5 +38,6 @@ class BirdRouter {
     router.define('home', handler: _home);
     router.define('features', handler: _features);
     router.define('auth', handler: _auth);
+    router.define('snap', handler: _snap);
   }
 }
