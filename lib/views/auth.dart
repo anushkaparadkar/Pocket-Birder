@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pocket_birder_x/util/theme.dart' as Theme;
@@ -48,6 +47,7 @@ class _LoginPageState extends State<LoginPage>
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
+          return;
         },
         child: SingleChildScrollView(
           child: Container(
