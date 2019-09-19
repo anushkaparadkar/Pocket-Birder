@@ -555,7 +555,7 @@ class _LoginPageState extends State<LoginPage>
                   ),
                   onPressed: () =>
                       //showInSnackBar("SignUp button pressed");
-                      Navigator.of(context).pushNamed('snap'),
+                      Navigator.of(context).pushNamed('features'),
                 ),
               ),
             ],

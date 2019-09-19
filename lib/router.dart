@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:pocket_birder_x/views/auth.dart';
 import 'package:pocket_birder_x/views/features.dart';
-import 'package:pocket_birder_x/views/home.dart';
+import 'package:pocket_birder_x/views/results-location.dart';
 import 'package:pocket_birder_x/views/snap-image.dart';
 
 class BirdRouter {
   static Router router = Router();
 
-  static Handler _home =
-      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return HomePage();
-  });
+  //static Handler _home =
+  // Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+  // return HomePage();
+  //});
   static Handler _auth =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return LoginPage();
@@ -33,11 +33,16 @@ class BirdRouter {
       titles: ['Identification', 'Location', 'Call'],
     );
   });
+  static Handler _location =
+      Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+    return LocationPage();
+  });
 
   static void setupRouter() {
-    router.define('home', handler: _home);
+    // router.define('home', handler: _home);
     router.define('features', handler: _features);
     router.define('auth', handler: _auth);
     router.define('snap', handler: _snap);
+    router.define('location', handler: _location);
   }
 }
