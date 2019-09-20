@@ -43,48 +43,46 @@ class _SnapState extends State<Snap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: new CustomCard(
-          bgColor: Colors.black12,
-          content: new Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                  child: _image == null
-                      ? Text(
-                          'No image selected!\nPlease snap your bird again!',
-                          style: TextStyle(
-                            color: Theme.of(context).errorColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      : Image.file(_image),
-                ),
-                Padding(
-                  child: Text("bird"),
-                  padding: EdgeInsets.all(10),
-                ),
-                Padding(
-                  child: RaisedButton(
-                    onPressed: () => print("Clicked!"),
-                    child: Text(
-                      "Add",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+    return SingleChildScrollView(
+      child: new CustomCard(
+        bgColor: Colors.black12,
+        content: new Container(
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: _image == null
+                    ? Text(
+                        'No image selected!\nPlease snap your bird again!',
+                        style: TextStyle(
+                          color: Theme.of(context).errorColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : Image.file(_image),
+              ),
+              Padding(
+                child: Text("bird"),
+                padding: EdgeInsets.all(10),
+              ),
+              Padding(
+                child: RaisedButton(
+                  onPressed: () => print("Clicked!"),
+                  child: Text(
+                    "Add",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    color: Theme.of(context).primaryColor,
                   ),
-                  padding: EdgeInsets.all(5),
-                )
-              ],
-            ),
+                  color: Theme.of(context).primaryColor,
+                ),
+                padding: EdgeInsets.all(5),
+              )
+            ],
           ),
         ),
       ),
