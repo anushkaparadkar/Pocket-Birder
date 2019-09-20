@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
 
 class Calls extends StatefulWidget {
   @override
@@ -11,21 +8,6 @@ class Calls extends StatefulWidget {
 class _CallsState extends State<Calls> {
   Map data;
   List userData;
-
-  Future getData() async {
-    http.Response response = await http
-        .get("https://www.xeno-canto.org/api/2/recordings?query=cnt:brazil");
-    data = json.decode(response.body);
-    setState(() {
-      userData = data["data"];
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {

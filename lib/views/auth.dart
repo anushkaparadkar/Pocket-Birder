@@ -569,9 +569,7 @@ class _LoginPageState extends State<LoginPage>
                           fontFamily: "WorkSansBold"),
                     ),
                   ),
-                  onPressed: () =>
-                      //showInSnackBar("SignUp button pressed");
-                      Navigator.of(context).pushNamed('features'),
+                  onPressed: () => this._signUpUser(),
                 ),
               ),
             ],
@@ -579,6 +577,21 @@ class _LoginPageState extends State<LoginPage>
         ],
       ),
     );
+  }
+
+  void _signUpUser() async {
+    showInSnackBar("SignUp button pressed");
+    var _name = signupNameController.text;
+    var _email = signupEmailController.text;
+    var _password = signupPasswordController.text;
+    signupEmailController.clear();
+    signupPasswordController.clear();
+    signupNameController.clear();
+    final FirebaseUser user = (await _firebaseAuth
+            .createUserWithEmailAndPassword(email: _email, password: _password))
+        .user;
+    print(user.email);
+    Navigator.pushReplacementNamed(context, "features");
   }
 
   void _onSignInButtonPress() {
