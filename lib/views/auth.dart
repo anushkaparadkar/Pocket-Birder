@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,6 +40,8 @@ class _LoginPageState extends State<LoginPage>
 
   Color left = Colors.black;
   Color right = Colors.white;
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -334,7 +337,7 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => showInSnackBar("Login button pressed")),
+                    onPressed: () => this._loginUser()),
               ),
             ],
           ),
@@ -355,6 +358,19 @@ class _LoginPageState extends State<LoginPage>
         ],
       ),
     );
+  }
+
+  void _loginUser() async {
+    showInSnackBar("Login button pressed");
+    var _email = loginEmailController.text;
+    var _password = loginPasswordController.text;
+    loginEmailController.clear();
+    loginPasswordController.clear();
+    final FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(
+            email: _email, password: _password))
+        .user;
+    print(user.email);
+    Navigator.pushReplacementNamed(context, "features");
   }
 
   Widget _buildSignUp(BuildContext context) {
