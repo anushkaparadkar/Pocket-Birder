@@ -30,14 +30,7 @@ class BirdRouter {
   static Handler _features =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return Root(
-      child: Features(
-        images: [
-          'assets/images/identification.png',
-          'assets/images/location.jpg',
-          'assets/images/song.jpg'
-        ],
-        titles: ['Identification', 'Location', 'Call'],
-      ),
+      child: Features(),
     );
   });
 

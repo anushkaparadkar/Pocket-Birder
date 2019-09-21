@@ -113,7 +113,7 @@ class _RootState extends State<Root> {
               Icons.settings,
               color: Colors.red,
             ),
-            title: Text("Settings"),
+            title: Text("Location"),
           ),
         ],
       ),
