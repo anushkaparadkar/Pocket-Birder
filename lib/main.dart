@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_birder_x/router.dart';
-import 'package:pocket_birder_x/views/features.dart';
 
 void main() {
   BirdRouter.setupRouter();
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Features(),
+      initialRoute: 'home',
       onGenerateRoute: BirdRouter.router.generator,
     );
   }

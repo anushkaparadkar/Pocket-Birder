@@ -11,7 +11,9 @@ class BirdRouter {
 
   static Handler _home =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return HomePage();
+    return Root(
+      child: HomePage(),
+    );
   });
 
   static Handler _auth =

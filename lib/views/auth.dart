@@ -581,7 +581,6 @@ class _LoginPageState extends State<LoginPage>
 
   void _signUpUser() async {
     showInSnackBar("SignUp button pressed");
-    var _name = signupNameController.text;
     var _email = signupEmailController.text;
     var _password = signupPasswordController.text;
     signupEmailController.clear();
@@ -591,7 +590,7 @@ class _LoginPageState extends State<LoginPage>
             .createUserWithEmailAndPassword(email: _email, password: _password))
         .user;
     print(user.email);
-    Navigator.pushReplacementNamed(context, "features");
+    Navigator.pushReplacementNamed(context, 'home');
   }
 
   void _onSignInButtonPress() {

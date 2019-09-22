@@ -36,7 +36,7 @@ class _RootState extends State<Root> {
         title: Text(
           "Pocket Birder",
           style: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Colors.white,
             fontSize: 25,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
@@ -44,7 +44,7 @@ class _RootState extends State<Root> {
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.greenAccent,
       ),
       body: this.widget.child,
       floatingActionButton: FloatingActionButton(
@@ -68,7 +68,7 @@ class _RootState extends State<Root> {
               );
             }),
         child: Icon(Icons.add),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BubbleBottomBar(
@@ -80,38 +80,38 @@ class _RootState extends State<Root> {
         elevation: 5,
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightGreenAccent,
             icon: Icon(
               Icons.home,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.home,
-              color: Colors.red,
+              color: Colors.green,
             ),
             title: Text("Home"),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightGreenAccent,
             icon: Icon(
               Icons.music_note,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.music_note,
-              color: Colors.red,
+              color: Colors.green,
             ),
             title: Text("Sounds"),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightGreenAccent,
             icon: Icon(
               Icons.settings,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.settings,
-              color: Colors.red,
+              color: Colors.green,
             ),
             title: Text("Location"),
           ),
