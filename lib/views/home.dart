@@ -1,64 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_birder_x/components/card.dart';
 
-class HomePage extends StatefulWidget {
-  final String id;
-
-  const HomePage({Key key, this.id}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        body: Container(
+            child: Stack(children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-            flex: 4,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(108.0)),
-                color: Colors.white,
-              ),
-            ),
+          Padding(
+            padding: EdgeInsets.only(top: 200.0),
           ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 38.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        height: 100.0,
-                        width: MediaQuery.of(context).size.width / 2 - 50,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: 100.0,
-                              width: MediaQuery.of(context).size.width / 2 - 50,
-                              child: Text(this.widget.id),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
+          pp(),
+        ],
+      ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Anushka Paradkar",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold),
               ),
+            ],
+          ),
+          CustomCard(
+            bgColor: Colors.grey.shade200,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "BirdCount",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
         ],
-      ),
-    );
+      )
+    ])));
+  }
+
+  Widget pp() {
+    return Container(
+        child: CircleAvatar(
+      backgroundColor: Colors.white,
+      backgroundImage: ExactAssetImage("assets/images/bird.png"),
+      minRadius: 60,
+      maxRadius: 80,
+    ));
   }
 }

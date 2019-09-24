@@ -15,8 +15,8 @@ class BirdRouter {
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
     return Root(
       child: HomePage(
-        id: params['id'][0],
-      ),
+          // id: params['id'][0],
+          ),
     );
   });
 
