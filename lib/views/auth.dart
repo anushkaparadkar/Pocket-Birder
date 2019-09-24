@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage>
   Color right = Colors.white;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Firestore db = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -585,6 +587,7 @@ class _LoginPageState extends State<LoginPage>
 
   void _signUpUser() async {
     showInSnackBar("Signing You Up ...");
+    var _name = signupNameController.text;
     var _email = signupEmailController.text;
     var _password = signupPasswordController.text;
     signupEmailController.clear();
@@ -593,7 +596,12 @@ class _LoginPageState extends State<LoginPage>
     final FirebaseUser user = (await _firebaseAuth
             .createUserWithEmailAndPassword(email: _email, password: _password))
         .user;
-    // TODO: Implement Firestore
+    DocumentReference ref = db.collection("users").document(user.uid);
+    ref.setData({
+      'id': user.uid,
+      'email': _email,
+      'name': _name,
+    }, merge: true);
     Navigator.pushReplacementNamed(context, 'home/${user.uid}');
   }
 

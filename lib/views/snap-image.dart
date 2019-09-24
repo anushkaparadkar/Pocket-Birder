@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pocket_birder_x/components/card.dart';
 import 'package:pocket_birder_x/util/api.dart';
+import 'package:pocket_birder_x/util/db.dart';
 
 class Snap extends StatefulWidget {
   final int value;
@@ -19,10 +22,17 @@ class _SnapState extends State<Snap> {
   bool isLoading = true;
   String prediction = '';
   API server = API();
+  FirebaseUser fbuser;
+  DatabaseService db = DatabaseService();
 
   @override
   initState() {
     super.initState();
+    FirebaseAuth.instance.currentUser().then((user) {
+      setState(() {
+        this.fbuser = user;
+      });
+    });
     getImage(this.widget.value);
   }
 
@@ -35,7 +45,13 @@ class _SnapState extends State<Snap> {
   }
 
   void addToLog() {
-    //TODO: Implement Firestore
+    Map m = {
+      "name": this.prediction,
+      "seenOn": Timestamp.fromDate(DateTime.now()),
+    };
+    List l = [m];
+    db.addBird(l, this.fbuser.uid);
+    Navigator.popAndPushNamed(context, 'features');
     print("Added To Log!");
   }
 
