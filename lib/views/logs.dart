@@ -1,16 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket_birder_x/components/card.dart';
+import 'package:pocket_birder_x/components/loader.dart';
 import 'package:pocket_birder_x/models/user.dart';
 import 'package:pocket_birder_x/util/db.dart';
 import 'package:intl/intl.dart';
 
-class Features extends StatefulWidget {
+class Logs extends StatefulWidget {
   @override
-  _FeaturesState createState() => _FeaturesState();
+  _LogsState createState() => _LogsState();
 }
 
-class _FeaturesState extends State<Features> {
+class _LogsState extends State<Logs> {
   bool isLoading = true;
   DatabaseService db = DatabaseService();
   User user;
@@ -32,21 +33,27 @@ class _FeaturesState extends State<Features> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: this.isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: CustomLoader())
           : CustomCard(
               bgColor: Colors.grey.shade200,
               content: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "Bird Diary",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Bird Diary",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
                     ),
                   ),
-                  Divider(),
+                  Divider(
+                    thickness: 2,
+                    height: 1,
+                  ),
                   ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -57,15 +64,24 @@ class _FeaturesState extends State<Features> {
                             'details/' +
                                 this.user.getSeenBirds()[index]['name']),
                         title: Text(this.user.getSeenBirds()[index]['name']),
-                        subtitle: Text("Seen on " +
-                            new DateFormat.yMMMEd('en_US')
-                                .add_jms()
-                                .format(DateTime.fromMillisecondsSinceEpoch(this
-                                        .user
-                                        .getSeenBirds()[index]['seenOn']
-                                        .seconds *
-                                    1000))
-                                .toString()),
+                        subtitle: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.date_range,
+                              color: Colors.grey,
+                            ),
+                            Text(" Seen on " +
+                                new DateFormat.yMMMEd('en_US')
+                                    .add_jms()
+                                    .format(DateTime.fromMillisecondsSinceEpoch(
+                                        this
+                                                .user
+                                                .getSeenBirds()[index]['seenOn']
+                                                .seconds *
+                                            1000))
+                                    .toString()),
+                          ],
+                        ),
                       );
                     },
                     itemCount: this.user.getSeenBirds().length,

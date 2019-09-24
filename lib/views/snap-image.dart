@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pocket_birder_x/components/card.dart';
+import 'package:pocket_birder_x/components/loader.dart';
 import 'package:pocket_birder_x/util/api.dart';
 import 'package:pocket_birder_x/util/db.dart';
 
@@ -37,6 +38,25 @@ class _SnapState extends State<Snap> {
   }
 
   void predict() async {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Dialog(
+            elevation: 10,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              width: 200,
+              height: 100,
+              child: Center(
+                child: Text(
+                  "Predicting Bird from Image",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          );
+        });
     String res = await server.predictBird(this._image);
     setState(() {
       this.prediction = res;
@@ -52,7 +72,6 @@ class _SnapState extends State<Snap> {
     List l = [m];
     db.addBird(l, this.fbuser.uid);
     Navigator.popAndPushNamed(context, 'features');
-    print("Added To Log!");
   }
 
   Future getImage(int value) async {
@@ -88,7 +107,7 @@ class _SnapState extends State<Snap> {
               Center(
                 child: _image == null
                     ? Text(
-                        'No image selected!\nPlease snap your bird again!',
+                        'No image selected!\nPlease snap the bird again!',
                         style: TextStyle(
                           color: Theme.of(context).errorColor,
                           fontWeight: FontWeight.bold,
@@ -116,7 +135,7 @@ class _SnapState extends State<Snap> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: this.isLoading
-                          ? CircularProgressIndicator()
+                          ? CustomLoader()
                           : Text(this.prediction),
                     )
                   ],

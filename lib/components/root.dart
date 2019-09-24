@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:pocket_birder_x/components/bottomBar.dart';
 
 class Root extends StatefulWidget {
   final Widget child;
@@ -12,32 +12,15 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-  int currentIndex = 0;
-
+  FirebaseUser user;
   @override
   void initState() {
     super.initState();
-    //currentIndex = 0;
-  }
-
-  void changePage(int index) {
-    setState(() {
-      currentIndex = index;
+    FirebaseAuth.instance.currentUser().then((currUser) {
+      setState(() {
+        this.user = currUser;
+      });
     });
-    switch (index) {
-      case 0:
-        Navigator.pushReplacementNamed(context, 'home/${1}');
-        break;
-      case 1:
-        Navigator.pushNamed(context, 'features');
-        break;
-      case 2:
-        FirebaseAuth.instance.signOut();
-        Navigator.pushReplacementNamed(context, 'splash');
-        break;
-      default:
-        print(index);
-    }
   }
 
   @override
@@ -84,57 +67,47 @@ class _RootState extends State<Root> {
             }),
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Colors.black,
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BubbleBottomBar(
-        hasNotch: true,
-        fabLocation: BubbleBottomBarFabLocation.center,
-        opacity: 0.2,
-        currentIndex: currentIndex,
-        onTap: changePage,
-        elevation: 5,
-        items: <BubbleBottomBarItem>[
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreenAccent,
-            icon: Icon(
-              Icons.home,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              Icons.home,
-              color: Colors.green,
-            ),
-            title: Text("Home"),
-          ),
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreenAccent,
-            icon: Icon(
-              Icons.library_books,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              Icons.library_books,
-              color: Colors.green,
-            ),
-            title: Text("Log"),
-          ),
-          BubbleBottomBarItem(
-            backgroundColor: Colors.lightGreenAccent,
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              Icons.settings,
-              color: Colors.green,
-            ),
-            title: Text("Logout"),
-          ),
+      bottomNavigationBar: FABBottomAppBar(
+        notchedShape: CircularNotchedRectangle(),
+        color: Colors.white,
+        selectedColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        centerItemText: "Snap!",
+        iconSize: 30,
+        onTabSelected: _selectedTab,
+        items: [
+          FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
+          FABBottomAppBarItem(iconData: Icons.library_books, text: 'Logs'),
+          FABBottomAppBarItem(iconData: Icons.location_on, text: 'Map'),
+          FABBottomAppBarItem(iconData: Icons.exit_to_app, text: 'Logout'),
         ],
       ),
     );
+  }
+
+  void _selectedTab(int index) {
+    print("Tab: $index");
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, 'home/${this.user.uid}');
+        break;
+      case 1:
+        Navigator.pushNamed(context, 'logs');
+        break;
+      case 2:
+        Navigator.pushNamed(context, 'map');
+        break;
+      case 3:
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacementNamed(context, 'splash');
+        break;
+      default:
+        print(index);
+    }
   }
 }

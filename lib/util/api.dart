@@ -43,8 +43,9 @@ class API {
     return bird;
   }
 
-  Future<String> getFinalString(String call) async {
-    Response res = await service.download(call, 'call.mp3');
-    return 'call.mp3';
+  Future<String> getBirdImage(String name) async {
+    String url = '';
+    Response data = await service.get(url, options: Options(method: 'GET'));
+    return '';
   }
 }

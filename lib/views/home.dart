@@ -1,62 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_birder_x/components/card.dart';
+import 'package:pocket_birder_x/components/loader.dart';
+import 'package:pocket_birder_x/models/user.dart';
+import 'package:pocket_birder_x/util/db.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  final String id;
+  const HomePage({Key key, this.id}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            child: Stack(children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 200.0),
-          ),
-          pp(),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Anushka Paradkar",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          CustomCard(
-            bgColor: Colors.grey.shade200,
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "BirdCount",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-        ],
-      )
-    ])));
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  User user;
+  bool isLoading = true;
+  DatabaseService db = DatabaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    db.getUser(this.widget.id).then((user) {
+      setState(() {
+        this.user = user;
+        this.isLoading = false;
+      });
+    });
   }
 
-  Widget pp() {
+  Widget _circleImage(String url) {
     return Container(
-        child: CircleAvatar(
-      backgroundColor: Colors.white,
-      backgroundImage: ExactAssetImage("assets/images/bird.png"),
-      minRadius: 60,
-      maxRadius: 80,
-    ));
+      width: 300,
+      height: 300,
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+          fit: BoxFit.cover,
+          image: new NetworkImage(url),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: this.isLoading
+          ? CustomLoader()
+          : CustomCard(
+              bgColor: Colors.grey.shade300,
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _circleImage(this.user.image),
+                  ),
+                  Text(
+                    this.user.name,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Chip(
+                      elevation: 5,
+                      label: Text(
+                        "Birds Spotted: ${this.user.seenBirds.length}",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      labelPadding: EdgeInsets.all(5),
+                      backgroundColor: Theme.of(context).primaryColor,
+                      avatar: Icon(
+                        Icons.check_circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+    );
   }
 }

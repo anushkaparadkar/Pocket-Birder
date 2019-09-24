@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket_birder_x/components/loader.dart';
 
 class Landing extends StatefulWidget {
   Landing({Key key}) : super(key: key);
@@ -46,7 +47,7 @@ class _LandingState extends State<Landing> {
                   height: 100,
                 ),
               ),
-              CircularProgressIndicator(),
+              CustomLoader(),
             ],
           ),
         ),

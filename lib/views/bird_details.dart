@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket_birder_x/components/card.dart';
+import 'package:pocket_birder_x/components/loader.dart';
 import 'package:pocket_birder_x/util/api.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -18,7 +22,10 @@ class _DetailsState extends State<Details> {
   Duration _duration = new Duration();
   Duration _position = new Duration();
   AudioPlayer advancedPlayer;
+  AudioCache audioCache;
   String audioUrl;
+  Completer<GoogleMapController> _controller = Completer();
+  CameraPosition _myLocation;
 
   @override
   void initState() {
@@ -27,6 +34,13 @@ class _DetailsState extends State<Details> {
       setState(() {
         this.bird = bird;
         this.isLoading = false;
+        this._myLocation = CameraPosition(
+          target: LatLng(
+            double.parse(bird['lat']),
+            double.parse(bird['lng']),
+          ),
+          zoom: 15,
+        );
       });
     });
     initPlayer();
@@ -34,6 +48,7 @@ class _DetailsState extends State<Details> {
 
   void initPlayer() {
     advancedPlayer = new AudioPlayer();
+    audioCache = new AudioCache(fixedPlayer: advancedPlayer);
     advancedPlayer.durationHandler = (d) => setState(() {
           _duration = d;
         });
@@ -90,13 +105,8 @@ class _DetailsState extends State<Details> {
   }
 
   Widget playAudio(String audioFile) {
-    service.getFinalString(audioFile).then((url) {
-      setState(() {
-        this.audioUrl = url;
-      });
-    });
     return _tab([
-      _btn('Play', Icons.play_arrow, () => advancedPlayer.play(this.audioUrl)),
+      _btn('Play', Icons.play_arrow, () => audioCache.play(audioFile)),
       _btn('Stop', Icons.stop, () => advancedPlayer.stop()),
     ]);
   }
@@ -121,7 +131,7 @@ class _DetailsState extends State<Details> {
     return SingleChildScrollView(
       child: this.isLoading
           ? Center(
-              child: CircularProgressIndicator(),
+              child: CustomLoader(),
             )
           : CustomCard(
               bgColor: Colors.grey.shade200,
@@ -129,21 +139,82 @@ class _DetailsState extends State<Details> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    this.bird['name'],
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      this.bird['name'],
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Divider(),
-                  Text(
-                    "Scientific Name\n" + this.bird['scientificName'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.w100,
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey.shade600,
+                            ),
+                            Text(
+                              "Scientific Name",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_left,
+                              color: Colors.grey.shade600,
+                            ),
+                          ],
+                        ),
+                        Text(
+                          this.bird['scientificName'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  Text(this.bird['lat'] + ' ' + this.bird['lng']),
-                  Text(this.bird['commonLocation']),
-                  playAudio(this.audioUrl),
+                  Container(
+                    width: double.infinity,
+                    height: 250,
+                    margin: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(5),
+                    child: GoogleMap(
+                      initialCameraPosition: _myLocation,
+                      mapType: MapType.normal,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                      },
+                      markers: {
+                        Marker(
+                          markerId: MarkerId(this.bird['name']),
+                          position: LatLng(
+                            double.parse(this.bird['lat']),
+                            double.parse(this.bird['lng']),
+                          ),
+                        ),
+                      },
+                    ),
+                  ),
+                  playAudio(''),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        "Commonly found in " + this.bird['commonLocation']),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ),

@@ -5,12 +5,14 @@ class User with ChangeNotifier {
   String id;
   String name;
   String email;
+  String image;
   List<Map> seenBirds;
 
   User({
     this.id,
     this.name,
     this.email,
+    this.image,
     this.seenBirds,
   });
 
@@ -19,6 +21,7 @@ class User with ChangeNotifier {
     return User(
       id: doc.documentID,
       name: data['name'] ?? '',
+      image: data['image'] ?? '',
       email: data['email'] ?? '',
       seenBirds: List.from(data['seenBirds']) ?? [],
     );
@@ -27,6 +30,7 @@ class User with ChangeNotifier {
   String getName() => this.name;
   String getID() => this.id;
   String getEmail() => this.email;
+  String getImage() => this.image;
   List<Map> getSeenBirds() => this.seenBirds;
 
   setName(String name) => this.name = name;
