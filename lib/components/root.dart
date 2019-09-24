@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
@@ -11,18 +12,32 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-  int currentIndex;
+  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    currentIndex = 0;
+    //currentIndex = 0;
   }
 
   void changePage(int index) {
     setState(() {
       currentIndex = index;
     });
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, 'home/${1}');
+        break;
+      case 1:
+        Navigator.pushNamed(context, 'features');
+        break;
+      case 2:
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacementNamed(context, 'splash');
+        break;
+      default:
+        print(index);
+    }
   }
 
   @override
@@ -44,7 +59,7 @@ class _RootState extends State<Root> {
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.green,
       ),
       body: this.widget.child,
       floatingActionButton: FloatingActionButton(
@@ -67,7 +82,10 @@ class _RootState extends State<Root> {
                 ),
               );
             }),
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: Colors.green,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -94,26 +112,26 @@ class _RootState extends State<Root> {
           BubbleBottomBarItem(
             backgroundColor: Colors.lightGreenAccent,
             icon: Icon(
-              Icons.music_note,
+              Icons.library_books,
               color: Colors.black,
             ),
             activeIcon: Icon(
-              Icons.music_note,
+              Icons.library_books,
               color: Colors.green,
             ),
-            title: Text("Sounds"),
+            title: Text("Log"),
           ),
           BubbleBottomBarItem(
             backgroundColor: Colors.lightGreenAccent,
             icon: Icon(
-              Icons.settings,
+              Icons.exit_to_app,
               color: Colors.black,
             ),
             activeIcon: Icon(
               Icons.settings,
               color: Colors.green,
             ),
-            title: Text("Location"),
+            title: Text("Logout"),
           ),
         ],
       ),

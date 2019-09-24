@@ -60,14 +60,15 @@ class _LoginPageState extends State<LoginPage>
                 : 775.0,
             decoration: new BoxDecoration(
               gradient: new LinearGradient(
-                  colors: [
-                    Theme.Colors.loginGradientStart,
-                    Theme.Colors.loginGradientEnd
-                  ],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(1.0, 1.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
+                colors: [
+                  Theme.Colors.loginGradientStart,
+                  Theme.Colors.loginGradientEnd
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 1.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -153,7 +154,7 @@ class _LoginPageState extends State<LoginPage>
         style: TextStyle(
           color: Colors.white,
           fontSize: 16.0,
-          fontFamily: "WorkSansSemiBold",
+          fontWeight: FontWeight.bold,
         ),
       ),
       backgroundColor: Colors.blue,
@@ -182,9 +183,10 @@ class _LoginPageState extends State<LoginPage>
                 child: Text(
                   "Existing",
                   style: TextStyle(
-                      color: left,
-                      fontSize: 16.0,
-                      fontFamily: "WorkSansSemiBold"),
+                    color: left,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -197,9 +199,10 @@ class _LoginPageState extends State<LoginPage>
                 child: Text(
                   "New",
                   style: TextStyle(
-                      color: right,
-                      fontSize: 16.0,
-                      fontFamily: "WorkSansSemiBold"),
+                    color: right,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -237,7 +240,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: loginEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -249,7 +252,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Email Address",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                                fontWeight: FontWeight.bold, fontSize: 17.0),
                           ),
                         ),
                       ),
@@ -266,7 +269,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: loginPasswordController,
                           obscureText: _obscureTextLogin,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -278,7 +281,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Password",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                                fontWeight: FontWeight.bold, fontSize: 17.0),
                             suffixIcon: GestureDetector(
                               onTap: _toggleLogin,
                               child: Icon(
@@ -332,9 +335,10 @@ class _LoginPageState extends State<LoginPage>
                       child: Text(
                         "LOGIN",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0,
-                            fontFamily: "WorkSansBold"),
+                          color: Colors.white,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     onPressed: () => this._loginUser()),
@@ -361,7 +365,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _loginUser() async {
-    showInSnackBar("Login button pressed");
+    showInSnackBar("Logging you in ...");
     var _email = loginEmailController.text;
     var _password = loginPasswordController.text;
     loginEmailController.clear();
@@ -369,8 +373,7 @@ class _LoginPageState extends State<LoginPage>
     final FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(
             email: _email, password: _password))
         .user;
-    print(user.email);
-    Navigator.pushReplacementNamed(context, "features");
+    Navigator.pushReplacementNamed(context, "home/${user.uid}");
   }
 
   Widget _buildSignUp(BuildContext context) {
@@ -406,7 +409,7 @@ class _LoginPageState extends State<LoginPage>
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -417,7 +420,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Name",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -434,7 +437,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: signupEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -445,7 +448,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Email Address",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -462,7 +465,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: signupPasswordController,
                           obscureText: _obscureTextSignup,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -473,7 +476,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Password",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
                             suffixIcon: GestureDetector(
                               onTap: _toggleSignup,
                               child: Icon(
@@ -499,7 +502,7 @@ class _LoginPageState extends State<LoginPage>
                           controller: signupConfirmPasswordController,
                           obscureText: _obscureTextSignupConfirm,
                           style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
+                              fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
@@ -510,7 +513,7 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             hintText: "Confirmation",
                             hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
                             suffixIcon: GestureDetector(
                               onTap: _toggleSignupConfirm,
                               child: Icon(
@@ -564,9 +567,10 @@ class _LoginPageState extends State<LoginPage>
                     child: Text(
                       "SIGN UP",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25.0,
-                          fontFamily: "WorkSansBold"),
+                        color: Colors.white,
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   onPressed: () => this._signUpUser(),
@@ -580,7 +584,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _signUpUser() async {
-    showInSnackBar("SignUp button pressed");
+    showInSnackBar("Signing You Up ...");
     var _email = signupEmailController.text;
     var _password = signupPasswordController.text;
     signupEmailController.clear();
@@ -589,8 +593,8 @@ class _LoginPageState extends State<LoginPage>
     final FirebaseUser user = (await _firebaseAuth
             .createUserWithEmailAndPassword(email: _email, password: _password))
         .user;
-    print(user.email);
-    Navigator.pushReplacementNamed(context, 'home');
+    // TODO: Implement Firestore
+    Navigator.pushReplacementNamed(context, 'home/${user.uid}');
   }
 
   void _onSignInButtonPress() {

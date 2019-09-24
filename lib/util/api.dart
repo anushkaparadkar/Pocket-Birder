@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
-import 'package:path/path.dart';
+import 'dart:async';
 
 class API {
-  static final String url = '';
+  static final String url = 'http://f13cbca3.ngrok.io';
   static BaseOptions opts = BaseOptions(
     baseUrl: url,
     responseType: ResponseType.json,
@@ -14,17 +14,17 @@ class API {
 
   const API();
 
-  Future<String> predictBird(File image) async {
-    FormData data = new FormData.from(
-        {"file": new UploadFileInfo(image, basename(image.path))});
+  Future<String> predictFood(File image) async {
+    FormData data =
+        FormData.from({"file": new UploadFileInfo(image, image.path)});
     Response res = await service.post(
-      "/predict",
+      "/classify_food",
       data: data,
       options: Options(
         method: 'POST',
       ),
     );
-    String prediction = res.data.toString();
+    String prediction = res.data['result'].toString();
     return prediction;
   }
 }

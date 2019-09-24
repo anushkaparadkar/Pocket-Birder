@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pocket_birder_x/components/card.dart';
+import 'package:pocket_birder_x/util/api.dart';
 
 class Snap extends StatefulWidget {
   final int value;
@@ -15,11 +16,27 @@ class Snap extends StatefulWidget {
 
 class _SnapState extends State<Snap> {
   File _image;
+  bool isLoading = true;
+  String prediction = '';
+  API server = API();
 
   @override
   initState() {
     super.initState();
     getImage(this.widget.value);
+  }
+
+  void predict() async {
+    String res = await server.predictFood(this._image);
+    setState(() {
+      this.prediction = res;
+      this.isLoading = false;
+    });
+  }
+
+  void addToLog() {
+    //TODO: Implement Firestore
+    print("Added To Log!");
   }
 
   Future getImage(int value) async {
@@ -45,7 +62,7 @@ class _SnapState extends State<Snap> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: new CustomCard(
-        bgColor: Colors.black12,
+        bgColor: Colors.grey.shade200,
         content: new Container(
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -65,14 +82,36 @@ class _SnapState extends State<Snap> {
                     : Image.file(_image),
               ),
               Padding(
-                child: Text("bird"),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () => this.predict(),
+                      child: Text(
+                        "Recogonize",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: this.isLoading
+                          ? CircularProgressIndicator()
+                          : Text(this.prediction),
+                    )
+                  ],
+                ),
                 padding: EdgeInsets.all(10),
               ),
               Padding(
                 child: RaisedButton(
-                  onPressed: () => print("Clicked!"),
+                  onPressed: () => this.addToLog(),
                   child: Text(
-                    "Add",
+                    "Add To Log",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
