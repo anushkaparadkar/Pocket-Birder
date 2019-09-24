@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: this.isLoading
-          ? CustomLoader()
+          ? Center(child: CustomLoader())
           : CustomCard(
               bgColor: Colors.grey.shade300,
               content: Column(

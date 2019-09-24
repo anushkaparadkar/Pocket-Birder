@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pocket_birder_x/components/card.dart';
 import 'package:pocket_birder_x/components/loader.dart';
 import 'package:pocket_birder_x/util/api.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class Details extends StatefulWidget {
@@ -22,8 +20,7 @@ class _DetailsState extends State<Details> {
   Duration _duration = new Duration();
   Duration _position = new Duration();
   AudioPlayer advancedPlayer;
-  AudioCache audioCache;
-  String audioUrl;
+  String audioUrl = '';
   Completer<GoogleMapController> _controller = Completer();
   CameraPosition _myLocation;
 
@@ -39,16 +36,21 @@ class _DetailsState extends State<Details> {
             double.parse(bird['lat']),
             double.parse(bird['lng']),
           ),
-          zoom: 15,
+          zoom: 10,
         );
       });
     });
     initPlayer();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    advancedPlayer.stop();
+  }
+
   void initPlayer() {
     advancedPlayer = new AudioPlayer();
-    audioCache = new AudioCache(fixedPlayer: advancedPlayer);
     advancedPlayer.durationHandler = (d) => setState(() {
           _duration = d;
         });
@@ -106,7 +108,7 @@ class _DetailsState extends State<Details> {
 
   Widget playAudio(String audioFile) {
     return _tab([
-      _btn('Play', Icons.play_arrow, () => audioCache.play(audioFile)),
+      _btn('Play', Icons.play_arrow, () => advancedPlayer.play(audioFile)),
       _btn('Stop', Icons.stop, () => advancedPlayer.stop()),
     ]);
   }
@@ -204,9 +206,14 @@ class _DetailsState extends State<Details> {
                           ),
                         ),
                       },
+                      compassEnabled: true,
+                      mapToolbarEnabled: true,
+                      myLocationButtonEnabled: false,
+                      zoomGesturesEnabled: true,
                     ),
                   ),
-                  playAudio(''),
+                  playAudio(
+                      'https://www.xeno-canto.org/sounds/uploaded/MDZVOPUOXU/XC486531-190704_02.red.eyed.vireo.indian.spring.farm.lance.benner.mp3'),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

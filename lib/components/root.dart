@@ -67,7 +67,7 @@ class _RootState extends State<Root> {
             }),
         child: Icon(
           Icons.add,
-          color: Colors.black,
+          color: Colors.white,
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),

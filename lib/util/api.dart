@@ -43,9 +43,13 @@ class API {
     return bird;
   }
 
-  Future<String> getBirdImage(String name) async {
-    String url = '';
-    Response data = await service.get(url, options: Options(method: 'GET'));
-    return '';
+  Future<String> getAudio(String url) async {
+    Response res = await service.get(url,
+        options: Options(
+          method: 'GET',
+          followRedirects: true,
+        ));
+    print(res.redirects.toString());
+    return 'DUMMY!';
   }
 }
