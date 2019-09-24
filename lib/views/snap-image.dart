@@ -37,7 +37,7 @@ class _SnapState extends State<Snap> {
   }
 
   void predict() async {
-    String res = await server.predictFood(this._image);
+    String res = await server.predictBird(this._image);
     setState(() {
       this.prediction = res;
       this.isLoading = false;

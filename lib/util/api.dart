@@ -3,9 +3,7 @@ import 'dart:io';
 import 'dart:async';
 
 class API {
-  static final String url = 'http://f13cbca3.ngrok.io';
   static BaseOptions opts = BaseOptions(
-    baseUrl: url,
     responseType: ResponseType.json,
     connectTimeout: 30000,
     receiveTimeout: 30000,
@@ -14,11 +12,11 @@ class API {
 
   const API();
 
-  Future<String> predictFood(File image) async {
+  Future<String> predictBird(File image) async {
     FormData data =
         FormData.from({"file": new UploadFileInfo(image, image.path)});
     Response res = await service.post(
-      "/classify_food",
+      "https://482d5004.ngrok.io/predict_bird",
       data: data,
       options: Options(
         method: 'POST',
@@ -26,5 +24,27 @@ class API {
     );
     String prediction = res.data['result'].toString();
     return prediction;
+  }
+
+  Future<Map> getBirdDetails(String name) async {
+    String url = 'https://www.xeno-canto.org/api/2/recordings?query=' + name;
+    Response res = await service.get(url, options: Options(method: 'GET'));
+    List data = res.data['recordings'];
+    Map bird = {
+      "name": data[0]['en'],
+      "scientificName": data[0]['gen'] + ' ' + data[0]['sp'],
+      "commonLocation": data[0]['cnt'],
+      "call": data[0]['file'].substring(
+        2,
+      ),
+      "lat": data[0]['lat'],
+      "lng": data[0]['lng']
+    };
+    return bird;
+  }
+
+  Future<String> getFinalString(String call) async {
+    Response res = await service.download(call, 'call.mp3');
+    return 'call.mp3';
   }
 }
