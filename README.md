@@ -8,4 +8,4 @@ An application used to identify bird species by classifying images
 > flutter pub get  
 > flutter run
 
-###### Developed by Anushka Paradkar as a part Of Android Lab project requirement
+###### Developed as a part Android Lab project requirement
