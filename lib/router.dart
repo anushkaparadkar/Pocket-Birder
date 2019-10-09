@@ -57,9 +57,7 @@ class BirdRouter {
 
   static Handler _map =
       Handler(handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-    return Root(
-      child: MapView(),
-    );
+    return Maps();
   });
 
   static void setupRouter() {
