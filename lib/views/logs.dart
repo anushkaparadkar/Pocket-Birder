@@ -55,6 +55,7 @@ class _LogsState extends State<Logs> {
                     height: 1,
                   ),
                   ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return ListTile(
