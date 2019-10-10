@@ -16,7 +16,7 @@ class API {
     FormData data =
         FormData.from({"file": new UploadFileInfo(image, image.path)});
     Response res = await service.post(
-      "http://26c23091.ngrok.io/predict_bird",
+      "http://0faff8b7.ngrok.io/bird",
       data: data,
       options: Options(
         method: 'POST',
