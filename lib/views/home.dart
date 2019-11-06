@@ -36,7 +36,9 @@ class _HomePageState extends State<HomePage> {
         shape: BoxShape.circle,
         image: new DecorationImage(
           fit: BoxFit.cover,
-          image: new NetworkImage(url),
+          image: this.user.image != null
+              ? NetworkImage(url)
+              : AssetImage('assets/images/dummy.png'),
         ),
       ),
     );

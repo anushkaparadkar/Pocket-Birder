@@ -37,9 +37,7 @@ flutter:
     - assets/icon.png
     - assets/images/bird.png
     - assets/images/marker.png
-    - assets/images/identification.png
-    - assets/images/location.jpg
-    - assets/images/song.jpg
+    - assets/images/dummy.png
   fonts:
     - family: Montserrat
       fonts:

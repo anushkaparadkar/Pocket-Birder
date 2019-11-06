@@ -64,10 +64,13 @@ class _SnapState extends State<Snap> {
     });
   }
 
-  void addToLog() {
+  void addToLog() async {
+    Map bird = await server.getBirdDetails(this.prediction);
     Map m = {
       "name": this.prediction,
       "seenOn": Timestamp.fromDate(DateTime.now()),
+      "lat": double.parse(bird['lat']),
+      "lng": double.parse(bird['lng'])
     };
     List l = [m];
     db.addBird(l, this.fbuser.uid);
@@ -140,7 +143,7 @@ class _SnapState extends State<Snap> {
                     )
                   ],
                 ),
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
               ),
               Padding(
                 child: RaisedButton(
